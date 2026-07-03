@@ -37,5 +37,11 @@ link "$HANDOFF" "$HOME/.claude/skills/handoff"
 link "$HANDOFF" "$HOME/.agents/skills/handoff"
 link "$HANDOFF" "$HOME/.config/opencode/skill/handoff"
 
+# cheat-sheet — topic → offline HTML reference card (all harnesses)
+CHEAT_SHEET="$REPO_DIR/skills/cheat-sheet"
+link "$CHEAT_SHEET" "$HOME/.claude/skills/cheat-sheet"
+link "$CHEAT_SHEET" "$HOME/.agents/skills/cheat-sheet"
+link "$CHEAT_SHEET" "$HOME/.config/opencode/skill/cheat-sheet"
+
 echo
 echo "Done. Codex CLI is per-project: ln -s $SKILL/AGENTS.md ./AGENTS.md"

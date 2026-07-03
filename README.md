@@ -1,48 +1,9 @@
 # agent-setup
 
-My portable AI-agent configuration. One repo, one `install.sh`, and every coding agent on
-the machine — Claude Code, pi, OpenCode, Gemini CLI, Codex CLI — gets the same
-senior-engineer discipline.
-
-## What's inside
-
-```
-agent-setup/
-├── install.sh                    # recreates all harness symlinks (idempotent)
-└── skills/
-    └── coding-excellence/        # the skill — one brain, many mouths
-        ├── CORE.md               # canonical instructions (harness-neutral)
-        ├── SKILL.md              # Claude Code adapter
-        ├── AGENTS.md             # Codex CLI + OpenCode + pi adapter (rules inlined)
-        ├── GEMINI.md             # Gemini CLI adapter (generated from AGENTS.md)
-        ├── pi-prompt.md          # pi system-prompt form (generated from AGENTS.md)
-        └── README.md             # skill docs: design, install, adapter re-sync recipe
-```
-
-## coding-excellence
-
-A portable execution-discipline skill that raises the coding quality of **any model in any
-harness** — frontier models down to small free ones. It targets where models actually lose:
-not knowledge, discipline.
-
-- **12 always-on rules** — read before touching, smallest diff, verify APIs exist, never
-  claim done without command output, no debris
-- **Project orientation** — map the repo before building anything
-- **7-phase execution loop** — orient → pin intent → locate → plan the change → change
-  surgically → debug systematically → verify by running
-- **14-trap failure catalog** — hallucinated APIs, giant rewrites, done-without-run … each
-  with one hard rule
-- **Deep mode** — pre/post-flight checklists for multi-file / irreversible changes
-- **Code review mode** + **code quality standard**
-
-### Measured results (2026-07-03, identical feature-build task, independently verified)
-
-| Engine | Score |
-|---|---|
-| pi + gpt-oss-120b (Bedrock Mantle) | 10/10 |
-| pi + qwen3-coder-480b (Bedrock Mantle) | 10/10 |
-| OpenCode + deepseek-v4-flash (free) | 10/10 |
-| Claude Code + Haiku 4.5 | ~9/10 |
+My portable AI-agent configuration. One repo, one `install.sh`, and every coding
+agent on the machine — Claude Code, pi, OpenCode, Gemini CLI, Codex CLI — gets
+the same skills and the same senior-engineer discipline. Everything is symlinked,
+so `git pull` updates every harness at once.
 
 ## Install
 
@@ -51,16 +12,80 @@ git clone https://github.com/naveen-og/agent-setup ~/agent-setup
 bash ~/agent-setup/install.sh
 ```
 
-Everything is symlinked, so `git pull` updates every harness at once. If you edit the rules,
-edit `AGENTS.md` (or `CORE.md`) and re-run the sync recipe in
-`skills/coding-excellence/README.md` to regenerate `GEMINI.md` / `pi-prompt.md`.
+Idempotent — safe to re-run after every pull.
+
+## What's inside
+
+```
+agent-setup/
+├── install.sh              # recreates all harness symlinks
+└── skills/
+    ├── coding-excellence/  # always-on coding discipline (CORE.md + per-harness adapters)
+    ├── prompt-smith/       # on-demand prompt refinement
+    ├── handoff/            # on-demand session handoff
+    └── cheat-sheet/        # on-demand topic → offline HTML reference card
+```
+
+## The skills
+
+### coding-excellence
+
+Raises the coding quality of **any model in any harness** — frontier models down
+to small free ones. It targets where models actually lose: not knowledge,
+discipline.
+
+- **12 always-on rules** — read before touching, smallest diff, verify APIs
+  exist, never claim done without command output, no debris
+- **Project orientation** — map the repo before building anything
+- **7-phase execution loop** — orient → pin intent → locate → plan → change
+  surgically → debug systematically → verify by running
+- **14-trap failure catalog** — hallucinated APIs, giant rewrites,
+  done-without-run… each with one hard rule
+- **Deep mode** + **code review mode** + **code quality standard**
+
+Measured on an identical feature-build task (2026-07-03, independently
+verified): pi + gpt-oss-120b **10/10**, pi + qwen3-coder-480b **10/10**,
+OpenCode + deepseek-v4-flash **10/10**, Claude Code + Haiku 4.5 **~9/10**.
+
+One brain, many mouths: `CORE.md` is canonical; `SKILL.md` (Claude Code),
+`AGENTS.md` (Codex/OpenCode/pi), `GEMINI.md` and `pi-prompt.md` are adapters.
+Edit `AGENTS.md` or `CORE.md`, then re-run the sync recipe in its README.
+
+### prompt-smith
+
+Takes a raw prompt — any target: coding agent, chat LLM, research, image gen,
+system prompt — scores it against a 10-point rubric, interviews you if context
+is missing, and hands back a professionally engineered version with the full
+breakdown: scores, tactics applied, assumptions, alternative version.
+
+### handoff
+
+Packages the current session's state — what was done, decisions, open threads,
+gotchas — so a fresh agent (any harness) can pick up exactly where the last one
+stopped. Use before context runs out, not after.
+
+### cheat-sheet
+
+Name a topic ("make a cheat sheet for git rebase") and get one self-contained
+HTML file: a dense reference card covering the topic from 5 angles — Beginner,
+Practical, Pitfalls, Expert, Alternatives. Template is embedded in the skill so
+the output stays clean: no CDN, no webfonts, topic-derived accent color,
+dark/light/print all handled. Attach reference images and they become the
+design brief. Deliberately does *not* look like AI slop — density is the
+aesthetic, no hero sections, no purple gradients.
 
 ## Hard-won prompt-engineering lessons baked in
 
-1. **Front-load counters against strong priors.** qwen3-coder ignored "don't convert tests
-   to unittest" as rule 6, as a dedicated section, and as a closing checklist — it only
-   complied when the counter moved into the prompt's opening lines.
-2. **If every capable model breaks a rule identically, the rule is wrong.** All test models
-   consolidated same-file duplicate logic into an imported utility — that's senior judgment,
-   so the rule became a sanctioned-with-disclosure exception instead of a prohibition.
-3. **Weak models follow structure, drown in prose.** Numbered rules, tables, concrete cases.
+1. **Front-load counters against strong priors.** qwen3-coder ignored "don't
+   convert tests to unittest" as rule 6, as a dedicated section, and as a
+   closing checklist — it only complied when the counter moved into the
+   prompt's opening lines.
+2. **If every capable model breaks a rule identically, the rule is wrong.** All
+   test models consolidated same-file duplicate logic into an imported utility —
+   that's senior judgment, so the rule became a sanctioned-with-disclosure
+   exception instead of a prohibition.
+3. **Weak models follow structure, drown in prose.** Numbered rules, tables,
+   concrete cases.
+4. **Embed the template, don't describe it.** cheat-sheet ships its exact HTML
+   skeleton in the skill file — deterministic output beats re-inventing the
+   design every run.
