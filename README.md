@@ -47,7 +47,7 @@ not knowledge, discipline.
 ## Install
 
 ```bash
-git clone https://github.com/naveenanubh-cmyk/agent-setup ~/agent-setup
+git clone https://github.com/naveen-og/agent-setup ~/agent-setup
 bash ~/agent-setup/install.sh
 ```
 
