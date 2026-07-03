@@ -25,5 +25,11 @@ link "$SKILL/AGENTS.md" "$HOME/.config/opencode/AGENTS.md"
 # Gemini CLI — global rules (harmless if gemini not installed)
 link "$SKILL/GEMINI.md" "$HOME/.gemini/GEMINI.md"
 
+# prompt-smith — on-demand prompt refinement skill (all harnesses)
+PROMPT_SMITH="$REPO_DIR/skills/prompt-smith"
+link "$PROMPT_SMITH" "$HOME/.claude/skills/prompt-smith"
+link "$PROMPT_SMITH" "$HOME/.agents/skills/prompt-smith"
+link "$PROMPT_SMITH" "$HOME/.config/opencode/skill/prompt-smith"
+
 echo
 echo "Done. Codex CLI is per-project: ln -s $SKILL/AGENTS.md ./AGENTS.md"
