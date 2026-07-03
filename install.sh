@@ -31,5 +31,11 @@ link "$PROMPT_SMITH" "$HOME/.claude/skills/prompt-smith"
 link "$PROMPT_SMITH" "$HOME/.agents/skills/prompt-smith"
 link "$PROMPT_SMITH" "$HOME/.config/opencode/skill/prompt-smith"
 
+# handoff — on-demand session-handoff skill (all harnesses)
+HANDOFF="$REPO_DIR/skills/handoff"
+link "$HANDOFF" "$HOME/.claude/skills/handoff"
+link "$HANDOFF" "$HOME/.agents/skills/handoff"
+link "$HANDOFF" "$HOME/.config/opencode/skill/handoff"
+
 echo
 echo "Done. Codex CLI is per-project: ln -s $SKILL/AGENTS.md ./AGENTS.md"
