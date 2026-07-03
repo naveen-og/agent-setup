@@ -67,12 +67,13 @@ stopped. Use before context runs out, not after.
 ### cheat-sheet
 
 Name a topic ("make a cheat sheet for git rebase") and get one self-contained
-HTML file: a dense reference card covering the topic from 5 angles — Beginner,
-Practical, Pitfalls, Expert, Alternatives. Template is embedded in the skill so
-the output stays clean: no CDN, no webfonts, topic-derived accent color,
-dark/light/print all handled. Attach reference images and they become the
-design brief. Deliberately does *not* look like AI slop — density is the
-aesthetic, no hero sections, no purple gradients.
+HTML file that reads like a typeset lesson page: serif prose in a single
+column, commented command blocks, a red-rail callout for the one rule that
+matters, and a "Check yourself" quiz at the end. Covers 5 angles — Beginner,
+Practical, Pitfalls, Expert, Alternatives. The exact template ships with the
+skill (`template.html`), zero external requests, light/dark/print all handled.
+Attach reference images and they become the design brief. Deliberately does
+*not* look like AI slop — it's a minimal PDF-style document, not a dashboard.
 
 ## Hard-won prompt-engineering lessons baked in
 
@@ -86,6 +87,6 @@ aesthetic, no hero sections, no purple gradients.
    exception instead of a prohibition.
 3. **Weak models follow structure, drown in prose.** Numbered rules, tables,
    concrete cases.
-4. **Embed the template, don't describe it.** cheat-sheet ships its exact HTML
-   skeleton in the skill file — deterministic output beats re-inventing the
-   design every run.
+4. **Ship the template, don't describe it.** cheat-sheet includes its exact
+   HTML skeleton (`template.html`) — deterministic output beats re-inventing
+   the design every run.
