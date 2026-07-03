@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>git rebase — Cheat Sheet</title>
+<style>
+:root {
+  --bg: #0e1116; --surface: #161b22; --border: #262d36;
+  --text: #dce3ea; --muted: #8b96a3;
+  --accent: #f05133;
+  --mono: ui-monospace, 'Cascadia Code', 'JetBrains Mono', Menlo, monospace;
+  --sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: light) {
+  :root { --bg:#f8f9fa; --surface:#fff; --border:#dde2e8; --text:#1a2027; --muted:#5b6672; }
+}
+* { margin:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font:15px/1.5 var(--sans); padding:2rem 1rem; }
+.sheet { max-width:1100px; margin:0 auto; }
+header { border-bottom:2px solid var(--accent); padding-bottom:1rem; margin-bottom:1.5rem; }
+header h1 { font-size:1.6rem; font-weight:700; letter-spacing:-0.02em; }
+header h1 code { font-size:1.4rem; background:none; border:none; padding:0; color:var(--accent); }
+header p { color:var(--muted); margin-top:.25rem; }
+nav { display:flex; flex-wrap:wrap; gap:.5rem 1.25rem; margin:.75rem 0 0; font-size:.78rem;
+      text-transform:uppercase; letter-spacing:.08em; }
+nav a { color:var(--muted); text-decoration:none; }
+nav a:hover, nav a:focus-visible { color:var(--accent); }
+section { margin-bottom:2rem; }
+section > h2 { font-size:.78rem; text-transform:uppercase; letter-spacing:.1em;
+  color:var(--accent); border-left:3px solid var(--accent); padding-left:.6rem; margin-bottom:.75rem; }
+.grid { column-count:3; column-gap:1rem; }
+@media (max-width:900px){ .grid{column-count:2} }
+@media (max-width:600px){ .grid{column-count:1} body{padding:1rem .5rem} }
+.card { break-inside:avoid; background:var(--surface); border:1px solid var(--border);
+  border-radius:6px; padding:.75rem .9rem; margin-bottom:1rem; }
+.card h3 { font-size:.95rem; font-weight:600; margin-bottom:.4rem; }
+.card p { font-size:.85rem; color:var(--muted); }
+code { font:.82rem var(--mono); background:color-mix(in srgb, var(--accent) 8%, var(--surface));
+  border:1px solid var(--border); border-radius:4px; padding:.1em .35em; }
+pre { background:var(--bg); border:1px solid var(--border); border-radius:6px;
+  padding:.6rem .75rem; overflow-x:auto; margin:.5rem 0 0; }
+pre code { background:none; border:none; padding:0; display:block; }
+kbd { font:.78rem var(--mono); border:1px solid var(--border); border-bottom-width:2px;
+  border-radius:4px; padding:.05em .4em; }
+footer { color:var(--muted); font-size:.75rem; border-top:1px solid var(--border);
+  padding-top:.75rem; margin-top:1rem; }
+@media print { :root{--bg:#fff;--surface:#fff;--border:#ccc;--text:#000;--muted:#444}
+  .card{border:1px solid #ccc} nav{display:none} }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header>
+    <h1><code>git rebase</code></h1>
+    <p>Replay commits onto a new base — for linear history, cleaned-up branches, and rewriting local work before it ships.</p>
+    <nav>
+      <a href="#beginner">Beginner</a><a href="#practical">Practical</a>
+      <a href="#pitfalls">Pitfalls</a><a href="#expert">Expert</a>
+      <a href="#alternatives">Alternatives</a>
+    </nav>
+  </header>
+
+  <section id="beginner"><h2>Beginner — the mental model</h2>
+    <div class="grid">
+      <div class="card"><h3>What rebase does</h3>
+        <p>Takes your branch's commits, lifts them off, and replays them one by one on top of another commit. Result: same changes, new history.</p></div>
+      <div class="card"><h3><code>git rebase main</code></h3>
+        <p>Replay current branch onto the tip of <code>main</code>. Your commits get new hashes — they are copies, not moves.</p></div>
+      <div class="card"><h3>Rebase vs merge</h3>
+        <p>Merge ties two histories together with a merge commit. Rebase rewrites yours to look like it started from the new base — linear, no knot.</p></div>
+      <div class="card"><h3>Commits are snapshots</h3>
+        <p>Each replayed commit is re-applied as a diff. If the new base conflicts with that diff, git pauses and asks you to resolve.</p></div>
+      <div class="card"><h3>The golden rule</h3>
+        <p>Rebase only commits that exist on <em>your machine only</em>. Never rebase history others have already pulled.</p></div>
+      <div class="card"><h3>Typical flow</h3>
+        <pre><code>git switch feature
+git fetch origin
+git rebase origin/main
+# resolve conflicts if any
+git push --force-with-lease</code></pre></div>
+    </div>
+  </section>
+
+  <section id="practical"><h2>Practical — daily commands</h2>
+    <div class="grid">
+      <div class="card"><h3><code>git rebase -i HEAD~3</code></h3>
+        <p>Interactive: edit the last 3 commits. Opens a todo list — reorder lines, change <code>pick</code> to an action.</p></div>
+      <div class="card"><h3>Interactive actions</h3>
+        <p><code>pick</code> keep · <code>reword</code> edit message · <code>squash</code> merge into previous (keep msg) · <code>fixup</code> merge, drop msg · <code>drop</code> delete · <code>edit</code> pause to amend.</p></div>
+      <div class="card"><h3>Continue / bail out</h3>
+        <pre><code>git rebase --continue
+git rebase --skip
+git rebase --abort</code></pre>
+        <p><code>--abort</code> restores the branch exactly as it was before the rebase started.</p></div>
+      <div class="card"><h3>Squash a whole branch</h3>
+        <pre><code>git rebase -i main</code></pre>
+        <p>Mark every commit but the first as <code>fixup</code> → one clean commit for review.</p></div>
+      <div class="card"><h3>Pull without merge knots</h3>
+        <pre><code>git pull --rebase
+git config --global pull.rebase true</code></pre></div>
+      <div class="card"><h3>Autosquash workflow</h3>
+        <pre><code>git commit --fixup abc123
+git rebase -i --autosquash main</code></pre>
+        <p>Fixup commits auto-slot under their targets in the todo list.</p></div>
+      <div class="card"><h3>Push rebased work</h3>
+        <pre><code>git push --force-with-lease</code></pre>
+        <p>Refuses to push if someone else pushed meanwhile. Never plain <code>--force</code>.</p></div>
+    </div>
+  </section>
+
+  <section id="pitfalls"><h2>Pitfalls — footguns &amp; fixes</h2>
+    <div class="grid">
+      <div class="card"><h3>Rebasing shared commits</h3>
+        <p>Rewrites history teammates already have — their next pull creates duplicate commits and conflicts. Only rebase unpushed or solo-branch work.</p></div>
+      <div class="card"><h3>"I lost my commits"</h3>
+        <p>You didn't. Reflog keeps everything ~90 days:</p>
+        <pre><code>git reflog
+git reset --hard HEAD@{2}</code></pre></div>
+      <div class="card"><h3>Same conflict, every commit</h3>
+        <p>Rebase replays commits one at a time, so one conflicting change can conflict repeatedly. Enable <code>rerere</code> to auto-reuse resolutions:</p>
+        <pre><code>git config --global rerere.enabled true</code></pre></div>
+      <div class="card"><h3>Force-push over teammates</h3>
+        <p>Plain <code>--force</code> silently deletes others' pushes. <code>--force-with-lease</code> aborts instead — make it a habit.</p></div>
+      <div class="card"><h3>Empty commits vanish</h3>
+        <p>If a commit's changes already exist upstream, rebase drops it silently. Use <code>--keep-empty</code> / check with <code>git log</code> after.</p></div>
+      <div class="card"><h3>Mid-rebase confusion</h3>
+        <p><code>git status</code> tells you you're mid-rebase and which commit is being applied. Lost? <code>git rebase --abort</code> and start over — it's free.</p></div>
+    </div>
+  </section>
+
+  <section id="expert"><h2>Expert — power moves</h2>
+    <div class="grid">
+      <div class="card"><h3><code>--onto</code>: transplant a branch</h3>
+        <pre><code>git rebase --onto main topicA topicB</code></pre>
+        <p>Move commits reachable from <code>topicB</code> but not <code>topicA</code> onto <code>main</code>. Precise branch surgery.</p></div>
+      <div class="card"><h3><code>--update-refs</code></h3>
+        <p>Rebasing a stack of branches? Git ≥2.38 moves every branch pointer in the stack in one rebase. Essential for stacked-PR workflows.</p></div>
+      <div class="card"><h3><code>--exec</code>: test every commit</h3>
+        <pre><code>git rebase -i --exec "make test" main</code></pre>
+        <p>Runs the command after each replayed commit; stops on first failure. Keeps every commit green for bisect.</p></div>
+      <div class="card"><h3><code>--rebase-merges</code></h3>
+        <p>Preserves merge-commit topology while rebasing instead of flattening it. For rebasing long-lived integration branches.</p></div>
+      <div class="card"><h3>Split a commit</h3>
+        <p>Mark it <code>edit</code>, then:</p>
+        <pre><code>git reset HEAD^
+git add -p; git commit
+git rebase --continue</code></pre></div>
+      <div class="card"><h3><code>--committer-date-is-author-date</code></h3>
+        <p>Keeps original timestamps when replaying — history reads naturally after big cleanups.</p></div>
+      <div class="card"><h3>Autostash</h3>
+        <pre><code>git config --global rebase.autoStash true</code></pre>
+        <p>Dirty tree? Git stashes, rebases, pops — no manual stash dance.</p></div>
+    </div>
+  </section>
+
+  <section id="alternatives"><h2>Alternatives — when not to rebase</h2>
+    <div class="grid">
+      <div class="card"><h3><code>git merge</code></h3>
+        <p>Safe for shared branches; keeps true history. Pick merge when the branch is public or the history knot doesn't bother you.</p></div>
+      <div class="card"><h3>Squash-merge (PR button)</h3>
+        <p>GitHub/GitLab squash on merge gives you the clean linear main without anyone rebasing locally. Most teams' default.</p></div>
+      <div class="card"><h3><code>git cherry-pick</code></h3>
+        <p>Replay <em>specific</em> commits elsewhere instead of a whole branch. Rebase is cherry-pick in bulk.</p></div>
+      <div class="card"><h3><code>git commit --amend</code></h3>
+        <p>Only fixing the latest commit? Amend is a one-commit rebase with none of the ceremony.</p></div>
+      <div class="card"><h3>jj / Sapling / Graphite</h3>
+        <p>Newer VCS layers make history rewriting first-class and undoable — worth a look if you live in stacked diffs.</p></div>
+      <div class="card"><h3>Rule of thumb</h3>
+        <p>Rebase to clean up <em>before</em> sharing; merge (or squash-merge) to combine <em>after</em> sharing.</p></div>
+    </div>
+  </section>
+
+  <footer>Generated 2026-07-03 · Agentic OS cheat-sheet skill · demo run (research pipeline skipped; live runs cite backends)</footer>
+</div>
+</body>
+</html>

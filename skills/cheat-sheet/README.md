@@ -23,6 +23,13 @@ instead of re-invented per run. The rules that make it work:
 Attach reference images and they become the design brief instead of the default
 template.
 
+## Files
+
+- `SKILL.md` — the skill (template embedded, so it works standalone)
+- `template.html` — the same skeleton as a real file, ready to copy or preview
+- `examples/git-rebase.html` — actual output from a run; open it in a browser
+  to see what you get
+
 ## Install
 
 `install.sh` at repo root symlinks this folder for Claude Code, pi, and
