@@ -104,7 +104,11 @@ async function agentLoop(role) {
     const promptFile = path.join(qdir(P), "tmp", `${role}-turn${turns[role]}.md`);
     fs.writeFileSync(promptFile, composePrompt({ projectDir: P, role, events, turn: turns[role], cfg }));
     flog(`${role}: turn ${turns[role]} starting (${events.length} events)`);
-    const res = await runTurn({ cfg, role, promptFile, projectDir: P, log: (m) => flog(`${role}: ${m}`) });
+    const res = await runTurn({
+      cfg, role, promptFile, projectDir: P,
+      log: (m) => flog(`${role}: ${m}`),
+      streamFile: path.join(qdir(P), "logs", `${role}.live.log`),
+    });
     fs.appendFileSync(
       path.join(qdir(P), "logs", `${role}.log`),
       `\n===== turn ${turns[role]} @ ${nowIso()} model=${res.model || "?"} ok=${res.ok} =====\n${res.output || res.error || ""}\n`,

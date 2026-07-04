@@ -129,13 +129,13 @@ switch (cmd) {
     fs.mkdirSync(logs, { recursive: true });
     const roles = ["planner", "coder", "reviewer", "researcher", "orchestrator"];
     for (const r of roles) {
-      const f = path.join(logs, `${r}.log`);
+      const f = path.join(logs, `${r}.live.log`);
       if (!fs.existsSync(f)) fs.writeFileSync(f, "");
     }
     const S = "quorum-watch";
     const sh = (c) => execSync(c, { stdio: "pipe" });
     try { sh(`tmux kill-session -t ${S} 2>/dev/null`); } catch {}
-    const tailCmd = (r) => `tail -n 20 -f '${path.join(logs, `${r}.log`)}'`;
+    const tailCmd = (r) => `tail -n 20 -f '${path.join(logs, `${r}.live.log`)}'`;
     const busCmd = `watch -n 2 -t "node '${path.join(HERE, "quorum.mjs")}' status --project '${P}'"`;
     sh(`tmux new-session -d -s ${S} -n fleet -x 220 -y 50 "${tailCmd(roles[0])}"`);
     for (const r of roles.slice(1)) {
