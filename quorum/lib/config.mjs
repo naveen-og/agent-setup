@@ -10,7 +10,9 @@ export const DEFAULT_CONFIG = {
     // to dodge argv length limits.
     cmd: "pi",
     args: [
-      "-p", "--no-session", "--no-extensions", "--no-skills",
+      // NOTE: extensions must stay enabled — claude-bridge is a pi extension;
+      // --no-extensions removes the provider and every claude-* model with it.
+      "-p", "--no-session", "--no-skills",
       "--no-prompt-templates", "--no-context-files", "--mode", "text",
       "--model", "{model}", "@{promptFile}",
     ],
