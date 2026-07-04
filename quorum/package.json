@@ -1,0 +1,20 @@
+{
+  "name": "quorum-fleet",
+  "version": "0.1.0",
+  "description": "5-agent peer-to-peer coding fleet — the filesystem is the protocol. Model-agnostic, harness-agnostic.",
+  "type": "module",
+  "bin": {
+    "quorum": "bin/quorum.mjs",
+    "q": "bin/q.mjs"
+  },
+  "pi": {
+    "extensions": ["extension/index.ts"],
+    "skills": [],
+    "prompts": [],
+    "themes": []
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT"
+}

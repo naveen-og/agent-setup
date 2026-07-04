@@ -43,5 +43,11 @@ link "$CHEAT_SHEET" "$HOME/.claude/skills/cheat-sheet"
 link "$CHEAT_SHEET" "$HOME/.agents/skills/cheat-sheet"
 link "$CHEAT_SHEET" "$HOME/.config/opencode/skill/cheat-sheet"
 
+# quorum — 5-agent coding fleet (standalone CLI, not a skill)
+QUORUM="$REPO_DIR/quorum"
+link "$QUORUM/bin/quorum.mjs" "$HOME/.local/bin/quorum"
+link "$QUORUM/bin/q.mjs"      "$HOME/.local/bin/q"
+
 echo
 echo "Done. Codex CLI is per-project: ln -s $SKILL/AGENTS.md ./AGENTS.md"
+echo "Quorum pi extension (optional): pi install $QUORUM"

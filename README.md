@@ -19,6 +19,7 @@ Idempotent — safe to re-run after every pull.
 ```
 agent-setup/
 ├── install.sh              # recreates all harness symlinks
+├── quorum/                 # 5-agent peer-to-peer coding fleet (standalone tool)
 └── skills/
     ├── coding-excellence/  # always-on coding discipline (CORE.md + per-harness adapters)
     ├── prompt-smith/       # on-demand prompt refinement
@@ -74,6 +75,33 @@ Practical, Pitfalls, Expert, Alternatives. The exact template ships with the
 skill (`template.html`), zero external requests, light/dark/print all handled.
 Attach reference images and they become the design brief. Deliberately does
 *not* look like AI slop — it's a minimal PDF-style document, not a dashboard.
+
+## quorum — 5-agent coding fleet
+
+Not a skill — a standalone tool I built after wanting a coding team, not a
+coding assistant. Five agents (planner, coder, reviewer, researcher,
+orchestrator) run as concurrent loops and coordinate purely through files in
+`.quorum/`: an append-only JSONL message bus, a task board, and a goal
+contract with runnable acceptance checks. No server, no framework — the
+filesystem is the protocol.
+
+Every agent turn is a fresh one-shot LLM call with context rebuilt from those
+files, so it's model- and harness-agnostic: each role has its own model
+fallback chain in config, and swapping providers is a config edit, not a code
+change. "Done" is mechanical — the fleet cannot close a goal unless the
+human-supplied acceptance command actually exits 0. Agents write lessons back
+to shared memory after each turn, so the team improves across goals.
+
+```bash
+cd your-project && git init            # any dir works
+quorum goal "build X, tests must pass" --check "npm test"
+quorum watch                            # 6-pane tmux dashboard, one per agent
+quorum say "also add a --json flag"     # steer mid-run
+quorum report                           # final report when done
+```
+
+See `quorum/README.md` and `quorum/docs/` for the protocol spec, portability
+guide, and annotated example traces.
 
 ## Hard-won prompt-engineering lessons baked in
 
