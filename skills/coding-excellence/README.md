@@ -33,7 +33,7 @@ lose — not knowledge, discipline.
 
 ## Two-layer activation
 
-- **Always-on layer** — the 12 rules (Part 1) load every coding turn. Cheap (~500 tokens),
+- **Always-on layer** — the 13 rules (Part 1) load every coding turn. Cheap (~600 tokens),
   covers the failure modes that matter on every edit.
 - **Deep mode** (CORE.md Part 5) — pre-flight/post-flight checklists, pulled in only for
   multi-file / refactor / irreversible / security-relevant changes.
@@ -56,8 +56,20 @@ sed '1s/.*/# Coding Excellence — Pi Rules/; 3s|.*|<!-- Adapter for Pi (add to 
 
 - Written weak-model-first: short imperative sentences, numbered steps, hard rules, tables.
   Weak models follow structure; they drown in prose.
+- Rules are front-loaded by leverage, not filed at the bottom. The highest-leverage rule —
+  ask targeted questions and wait when a request is ambiguous, a file is missing, or two
+  interpretations are valid, instead of guessing and proceeding — is rule 1 in Part 1 and the
+  first thing named in every adapter's opening lines. Counters against strong-model priors
+  only bind when they're the first thing read, not a checklist item found on page two.
+- Root-cause discipline is explicit and early (Part 1 rules 3–4): grep every caller of shared
+  code before editing it, and fix where all callers converge, not the path a bug report names.
 - The failure-mode catalog (CORE.md Part 4) is the centerpiece: 14 concrete traps
-  (hallucinated APIs, giant rewrites, done-without-run, …) each paired with one hard rule.
+  (ambiguity plowed-through, hallucinated APIs, giant rewrites, symptom-site fixes,
+  done-without-run, …) each paired with one counter-move.
+- When every capable model breaks a rule the same way, the rule was wrong, not the models —
+  same-file duplicate-logic consolidation is sanctioned-with-disclosure (Part 1 rule 6), not a
+  violation, because every tested model did it identically and flagging-only produced worse
+  code than the model's instinct.
 - Scope is the execution loop only — writing, debugging, reviewing, running. Product and
   architecture planning are deliberately out of scope.
 - No harness-specific tool names anywhere in CORE.md, so every adapter stays a thin wrapper.
