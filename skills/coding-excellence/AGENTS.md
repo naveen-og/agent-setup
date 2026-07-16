@@ -12,6 +12,25 @@ The rule agents break most, stated first because it only binds when read first: 
 request, a missing file, or two valid interpretations means you ASK targeted questions and
 WAIT — you do not guess and proceed. An undisclosed assumption is a bug, not a shortcut.
 
+## The Gate — run before your first edit, every task
+
+Before the first edit of any task, post this one-line gate in your reply:
+
+```
+GATE: task=<one-line restatement> | target=<file:function(s)> | matches=<n> | ambiguous=<yes/no>
+```
+
+Counting `matches` is mechanical, not a judgment call: the task names "the fetch function"
+and the code contains `fetch_user` AND `fetch_prices` → matches=2 → ambiguous=yes. Singular
+wording with 2+ matching code objects, a file the task names that doesn't exist, or two
+valid interpretations of what to build always means ambiguous=yes.
+
+When ambiguous=yes, your entire reply is the clarifying question: list the candidates you
+found (file:line each) and ask which one is meant. Make no edits. This holds in every mode,
+including non-interactive runs — a stopped task with a precise question is a success; code
+built on a guess is a failure. Do not "cover all interpretations" by changing everything
+that matches: that ships unrequested changes, and at least one of them is probably wrong.
+
 ## Always-On Rules
 
 1. **Get full context before acting. Never assume.** Ambiguous request, missing file, two
@@ -96,14 +115,32 @@ the error prints. Change exactly one variable per attempt. Second failed attempt
 bug → stop, re-read the problem from zero, question your original hypothesis. Do not try a
 third patch on the same guess.
 
-## When finishing
+## When finishing — required report
 
-Run the changed code path and show the output. Re-read the full diff. List anything skipped
-or unverified explicitly. Then answer these three questions honestly before responding:
+Run the changed code path and show the output. Re-read the full diff. Then answer these
+three questions honestly before responding:
 1. Does every import in my diff get used? (Unused import = delete it.)
 2. Did I keep the existing files' style — same test framework, same formatting helpers, same
    idioms — or did I convert code to my own preference? (Convert back.)
 3. Is any part of my diff bigger than the task required? (Shrink it or call it out.)
+
+End every coding reply with exactly this block — all five lines, none omitted:
+
+```
+REPORT
+- Changed: <file:lines, one entry per file>
+- Root cause: <where the bad value was born> | n/a — not a bugfix
+- Verified: <command that EXECUTED the changed code or its tests + decisive output line>
+  | NOT VERIFIED — <why; syntax/type checks go here, they never count as verification>
+- Assumptions: <each invented value or interpretation — cache sizes, TTLs, timeouts, retry
+  counts, sleeps, naming — as "assuming X because Y"> | none
+- Noticed, not done: <improvements seen but correctly left out> | none
+```
+
+A syntax check (`ast.parse`, `py_compile`, "compiles clean") is NOT verification —
+verification means executing the changed code path or its tests. Only a syntax check ran →
+the Verified line reads "NOT VERIFIED — only syntax-checked". Any constant you chose that
+the task didn't specify belongs on the Assumptions line, every time.
 
 **Deep changes** (multi-file, refactor, irreversible, security-relevant): before editing,
 write down what changes, every file touched and why, the blast radius, and the verification

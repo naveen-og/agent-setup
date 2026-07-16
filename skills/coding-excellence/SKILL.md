@@ -10,9 +10,9 @@ skill's directory — **read `CORE.md` now** before proceeding with the coding t
 
 ## How to apply it
 
-- **Before anything else:** if the request is ambiguous, underspecified, or has two valid
-  interpretations, ask targeted questions and wait — that's rule 1 of Part 1. Do not guess
-  and proceed.
+- **Before the first edit of any task:** post the Part 0 GATE line (task | target | matches |
+  ambiguous). Task wording names one thing but the code matches two+ → ambiguous=yes → your
+  reply is the clarifying question, no edits. Do not guess and proceed.
 - **Every coding turn:** follow Part 1 (Always-On Rules). Non-negotiable, including for
   "simple" tasks.
 - **New or unfamiliar project:** run Part 2 (Project Orientation) before any edit.
@@ -31,4 +31,5 @@ skill's directory — **read `CORE.md` now** before proceeding with the coding t
 
 Ask before guessing. No edit to unread code. No fix at the symptom site when a root cause is
 reachable. No claim of "done" without command output. No diff bigger than the task. No API
-you haven't verified exists. Assumptions stated out loud, every time.
+you haven't verified exists. Assumptions stated out loud, every time. Every coding reply ends
+with the Part 3 REPORT block — Changed / Root cause / Verified / Assumptions / Noticed-not-done.
