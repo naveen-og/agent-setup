@@ -1,6 +1,11 @@
 ---
 name: cheat-sheet
-description: Use when the user wants to learn a topic as a cheat sheet — "make a cheat sheet for git rebase", "/cheatsheet: docker networking". Researches the topic from 5 fixed perspectives (Beginner, Practical, Pitfalls, Expert, Alternatives) and renders a minimal, document-style, single-file offline HTML page with a self-test quiz. Optional reference images override the default visual design.
+description: >-
+  Use when the user wants to learn a topic as a cheat sheet — "make a cheat sheet
+  for git rebase", "/cheatsheet: docker networking". Researches the topic from 5
+  fixed perspectives (Beginner, Practical, Pitfalls, Expert, Alternatives) and
+  renders a minimal, document-style, single-file offline HTML page with a self-test
+  quiz. Optional reference images override the default visual design.
 ---
 
 # cheat-sheet — Topic → Minimal Document-Style Reference Page
