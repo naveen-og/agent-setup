@@ -43,6 +43,12 @@ link "$CHEAT_SHEET" "$HOME/.claude/skills/cheat-sheet"
 link "$CHEAT_SHEET" "$HOME/.agents/skills/cheat-sheet"
 link "$CHEAT_SHEET" "$HOME/.config/opencode/skill/cheat-sheet"
 
+# karpathy-guidelines — anti-overcomplication rules (multica-ai/andrej-karpathy-skills, MIT)
+KARPATHY="$REPO_DIR/skills/karpathy-guidelines"
+link "$KARPATHY" "$HOME/.claude/skills/karpathy-guidelines"
+link "$KARPATHY" "$HOME/.agents/skills/karpathy-guidelines"
+link "$KARPATHY" "$HOME/.config/opencode/skill/karpathy-guidelines"
+
 # quorum — 5-agent coding fleet (standalone CLI, not a skill)
 QUORUM="$REPO_DIR/quorum"
 link "$QUORUM/bin/quorum.mjs" "$HOME/.local/bin/quorum"
