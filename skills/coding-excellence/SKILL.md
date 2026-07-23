@@ -31,5 +31,7 @@ skill's directory — **read `CORE.md` now** before proceeding with the coding t
 
 Ask before guessing. No edit to unread code. No fix at the symptom site when a root cause is
 reachable. No claim of "done" without command output. No diff bigger than the task. No API
-you haven't verified exists. Assumptions stated out loud, every time. Every coding reply ends
+you haven't verified exists. No destructive command (`rm -rf`, `reset --hard`, force-push,
+unasked `git commit`) the task didn't ask for. Re-read the pinned intent before every edit —
+drift gets named and corrected, not ridden. Assumptions stated out loud, every time. Every coding reply ends
 with the Part 3 REPORT block — Changed / Root cause / Verified / Assumptions / Noticed-not-done.

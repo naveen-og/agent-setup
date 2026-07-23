@@ -33,7 +33,7 @@ lose — not knowledge, discipline.
 
 ## Two-layer activation
 
-- **Always-on layer** — the 13 rules (Part 1) load every coding turn. Cheap (~600 tokens),
+- **Always-on layer** — the 15 rules (Part 1) load every coding turn. Cheap (~600 tokens),
   covers the failure modes that matter on every edit.
 - **Deep mode** (CORE.md Part 5) — pre-flight/post-flight checklists, pulled in only for
   multi-file / refactor / irreversible / security-relevant changes.
@@ -63,7 +63,7 @@ sed '1s/.*/# Coding Excellence — Pi Rules/; 3s|.*|<!-- Adapter for Pi (add to 
   only bind when they're the first thing read, not a checklist item found on page two.
 - Root-cause discipline is explicit and early (Part 1 rules 3–4): grep every caller of shared
   code before editing it, and fix where all callers converge, not the path a bug report names.
-- The failure-mode catalog (CORE.md Part 4) is the centerpiece: 14 concrete traps
+- The failure-mode catalog (CORE.md Part 4) is the centerpiece: 16 concrete traps
   (ambiguity plowed-through, hallucinated APIs, giant rewrites, symptom-site fixes,
   done-without-run, …) each paired with one counter-move.
 - When every capable model breaks a rule the same way, the rule was wrong, not the models —

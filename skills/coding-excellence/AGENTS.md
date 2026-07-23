@@ -69,11 +69,23 @@ that matches: that ships unrequested changes, and at least one of them is probab
 13. **Leave no debris.** Re-read your own diff before finishing: no debug prints, dead code,
     stray TODOs, demo files nobody asked for, or unused imports. Every changed line must serve
     the task.
+14. **Destructive actions require explicit permission.** `rm -rf`, `git reset --hard`,
+    `git checkout -- .`, force-push, dropping tables, killing processes you didn't start —
+    only when the task explicitly asks or the user approves. Never `git commit` or
+    `git push` unless asked. A destructive command is never a shortcut around understanding.
+15. **Re-anchor on the task.** Before every edit — and periodically in any long task —
+    re-read the original request. Current work no longer serves it as written → stop, say
+    what drifted, realign before continuing.
+16. **Use \`bat\` instead of \`cat\` in bash.** When you must read a file via bash (e.g. in a
+    pipeline), always use \`bat\` over \`cat\` for syntax-highlighted output. The built-in \`read\`
+    tool is preferred for reading files; this rule only covers bash commands where \`cat\` would
+    be the natural choice.
 
 ## Before building in an unfamiliar project
 
 Map the directories. Read README + package manifest + any agent-instruction files. Find the
-test/build/run commands and run the tests once for a green baseline. Find one existing file
+test/build/run commands and run the tests once for a green baseline (tests already failing
+before your change are pre-existing: report them, don't silently fix them). Find one existing file
 similar to what you'll build — it is your template. Trace the code path you'll touch from
 entry to exit. Only then edit. Something you can't determine from the code → that's rule 1,
 ask.
@@ -103,8 +115,9 @@ say what changed, then continue. A one-line fix needs a one-line plan; no task n
 Names carry meaning (functions = verbs, values = nouns). Functions do one thing. Guard
 clauses first, happy path at lowest indentation — three nesting levels is a smell. Boring
 beats clever: plain readable code over dense one-liners. Fail loud and early with messages
-naming what was wrong and expected — never swallow errors. No magic values: name your
-constants. Comments explain why, not what; public functions get short docstrings. Similar
+naming what was wrong and expected — never swallow errors. Trust boundaries also mean
+security: secrets from config/env never literals, parameterized queries, escaped shell
+arguments. No magic values: name your constants. Comments explain why, not what; public functions get short docstrings. Similar
 things look similar. Dead code gets deleted, not commented out.
 
 ## When debugging

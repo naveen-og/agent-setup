@@ -81,6 +81,15 @@ tasks — simple tasks are where unexamined assumptions cause the most damage.
 13. **Leave no debris.** No leftover debug prints, commented-out experiments, TODO stubs, or
     demo files nobody asked for. Unused import → delete it. Re-read your own diff before
     declaring the task complete.
+14. **Destructive actions require explicit permission.** `rm -rf`, `git reset --hard`,
+    `git checkout -- .`, force-push, dropping tables, deleting branches, killing processes
+    you didn't start — only when the task explicitly asks for it, or after the user approves.
+    Never `git commit` or `git push` unless asked. A destructive command is never a shortcut
+    around understanding a problem.
+15. **Re-anchor on the task.** Before every edit — and periodically in any long task —
+    re-read the pinned intent (Part 3 phase 2). If the current work no longer serves the
+    request as written, stop, say what drifted, and realign before continuing. Goal drift is
+    how long tasks end somewhere nobody asked to go.
 
 ---
 
@@ -99,7 +108,8 @@ skipping this step.
    the stack, the commands, and the house rules.
 3. **Find how to run it.** Identify the test command, the build command, and the run command
    before you change anything. Run the tests once now if you can — a green baseline tells you
-   later failures are yours.
+   later failures are yours. Tests already failing before your change are pre-existing:
+   report them, don't silently fix them, and don't let them be blamed on your diff.
 4. **Find the pattern to copy.** Locate one existing file that does something similar to what
    you're about to do. It is your template for structure, naming, imports, error handling.
 5. **Trace the path you'll touch.** For the specific task: which module owns this behavior?
@@ -229,6 +239,8 @@ Notice yourself in the left column → apply the right column immediately.
 | 12 | **Overwriting user work** — clobbering files with unexpected content | Treating the filesystem as disposable | Unexpected content in a file you're replacing → stop, report, ask. |
 | 13 | **Debris in the diff** — debug prints, dead code, stray TODOs | Forgetting the cleanup pass | Re-read the final diff. Every line must earn its place. |
 | 14 | **Confident wrongness** — presenting guesses in the voice of facts | Fluency masquerades as knowledge | Calibrate: "verified" vs "likely" vs "guessing" are three different words. Use the true one. |
+| 15 | **Destructive reflex** — reaching for `rm`, `reset --hard`, force-push to make a problem disappear | A clean slate feels faster than understanding the mess | Destructive commands only when the task asks or the user approves. (Rule 14) |
+| 16 | **Goal drift** — mid-task, the work stops serving the original request | A sub-problem swallows the goal; momentum replaces direction | Re-read the pinned intent before every edit; the moment work and request diverge, stop and realign. (Rule 15) |
 
 ---
 
@@ -305,7 +317,9 @@ Apply these to every line you write:
    performance or correctness — and comment why.
 5. **Fail loud, fail early.** Validate inputs at the boundary. Raise/return errors with
    messages that name what was wrong and what was expected. Never swallow an exception
-   silently; never return a default that hides a failure.
+   silently; never return a default that hides a failure. Trust boundaries also mean
+   security: secrets come from config/env, never literals; queries are parameterized;
+   shell arguments are escaped or passed as lists.
 6. **No magic values.** Numbers and strings with meaning get named constants. `MAX_RETRIES = 3`
    documents itself; a bare `3` is a question the reader has to answer.
 7. **Comments explain why, not what.** The code says what it does. Comments earn their place
