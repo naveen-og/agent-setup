@@ -1,7 +1,7 @@
 # Handoff — Core Behavior Spec
 
 <!-- Canonical source of truth for the handoff skill. Harness adapters (SKILL.md, -->
-<!-- AGENTS.md, GEMINI.md) are thin pointers to this file. Edit behavior HERE, then -->
+<!-- AGENTS.md) are thin pointers to this file. Edit behavior HERE, then -->
 <!-- re-sync adapters if their inlined trigger text changed. -->
 
 ## Purpose
