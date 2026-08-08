@@ -13,7 +13,6 @@ lose — not knowledge, discipline.
 | `CORE.md` | **The instructions.** The loop, the rules, debugging, tests, deep mode, review mode, quality, the report. Harness-neutral, and the only file with content. |
 | `SKILL.md` | Claude Code adapter (auto-discovered skill; defers to CORE.md) |
 | `AGENTS.md` | Symlink to `CORE.md` — the filename Codex CLI and OpenCode read |
-| `GEMINI.md` | Symlink to `CORE.md` — the filename Gemini CLI reads |
 | `pi-executor.md` | Pi only. Pi executes plans it is handed, so it gets executor rules, not the reasoning-agent set. The one file that deliberately differs. |
 
 The adapters used to be three hand-maintained copies of the same 162 lines. They are symlinks
@@ -27,33 +26,19 @@ now: edit `CORE.md`, every harness gets it.
   for global):
   `ln -s ~/.claude/skills/coding-excellence/AGENTS.md ./AGENTS.md`
 - **OpenCode** — same file, project root: OpenCode reads `AGENTS.md` as standing context.
-- **Gemini CLI** — copy or symlink `GEMINI.md` into the project root (or `~/.gemini/GEMINI.md`
-  for global).
 - **Pi** — `install.sh` links `pi-executor.md` to `~/.pi/agent/AGENTS.md`. Use `CORE.md`
   instead if pi is ever driving itself rather than executing a plan.
 - **Any other harness / raw API** — prepend `CORE.md`'s "The Rules" to the system prompt;
   provide the full file as readable for deep mode.
 
-## Two-layer activation
-
-- **Always-on layer** — the 15 rules (Part 1) load every coding turn. Cheap (~600 tokens),
-  covers the failure modes that matter on every edit.
-- **Deep mode** (CORE.md Part 5) — pre-flight/post-flight checklists, pulled in only for
-  multi-file / refactor / irreversible / security-relevant changes.
-
 ## Editing the brain
 
-`CORE.md` is the single source of truth. The inline adapters (`AGENTS.md`, `GEMINI.md`,
-`pi-prompt.md`) duplicate the always-on rules so they load without extra steps in harnesses
-that read a single context file. **If you edit the rules in CORE.md, re-sync the adapters** —
-GEMINI.md and pi-prompt.md are generated from AGENTS.md with only the top 3 header lines
-differing:
+Edit `CORE.md`. That is the whole procedure — `AGENTS.md` is a symlink to it, so every harness
+that reads a single context file gets the change at once. There is nothing to re-sync.
 
-```bash
-cd ~/.claude/skills/coding-excellence
-sed '1s/.*/# Coding Excellence — Gemini CLI Rules/; 3s|.*|<!-- Adapter for Gemini CLI (reads GEMINI.md as standing context). -->|' AGENTS.md > GEMINI.md
-sed '1s/.*/# Coding Excellence — Pi Rules/; 3s|.*|<!-- Adapter for Pi (add to Pi rules\/system prompt). -->|' AGENTS.md > pi-prompt.md
-```
+`pi-executor.md` is the one file that deliberately differs, and it does not track CORE.md: pi
+executes plans it is handed, so it carries executor rules only. Change it when pi's role
+changes, not when the rules change.
 
 ## Design notes
 
