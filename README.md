@@ -1,7 +1,7 @@
 # agent-setup
 
 My portable AI-agent configuration. One repo, one `install.sh`, and every coding
-agent on the machine — Claude Code, pi, OpenCode, Gemini CLI, Codex CLI — gets
+agent on the machine — Claude Code, pi, OpenCode, Codex CLI — gets
 the same skills and the same senior-engineer discipline. Everything is symlinked,
 so `git pull` updates every harness at once.
 
@@ -48,9 +48,10 @@ Measured on an identical feature-build task (2026-07-03, independently
 verified): pi + gpt-oss-120b **10/10**, pi + qwen3-coder-480b **10/10**,
 OpenCode + deepseek-v4-flash **10/10**, Claude Code + Haiku 4.5 **~9/10**.
 
-One brain, many mouths: `CORE.md` is canonical; `SKILL.md` (Claude Code),
-`AGENTS.md` (Codex/OpenCode/pi), `GEMINI.md` and `pi-prompt.md` are adapters.
-Edit `AGENTS.md` or `CORE.md`, then re-run the sync recipe in its README.
+One brain, many mouths: `CORE.md` is canonical and `AGENTS.md` is a symlink to it,
+so Codex and OpenCode read the same bytes. `SKILL.md` adapts it for Claude Code.
+`pi-executor.md` is the one deliberate exception — pi executes plans rather than
+making them. Edit `CORE.md`; there is nothing to re-sync.
 
 ### prompt-smith
 

@@ -11,7 +11,6 @@ current work after a context reset. v2 — multi-harness package, same pattern a
 | `CORE.md` | **Canonical behavior spec.** Purpose, triggers, hard rules (temp-dir output, secret redaction, reference-not-duplicate), full section template, audience modes, quality bar. Harness-neutral. |
 | `SKILL.md` | Claude Code adapter (auto-discovered skill; defers to CORE.md; auto-invokes near context limit) |
 | `AGENTS.md` | Pi + Codex CLI + OpenCode adapter (contract inlined + CORE.md pointer) |
-| `GEMINI.md` | Gemini CLI adapter (same content, Gemini's context filename) |
 
 ## Install per harness
 
@@ -21,7 +20,6 @@ current work after a context reset. v2 — multi-harness package, same pattern a
 - **Pi / OpenCode / Codex CLI** — copy or symlink `AGENTS.md` into the project root (or the
   harness's global context location):
   `ln -s ~/.claude/skills/handoff/AGENTS.md ./AGENTS.md`
-- **Gemini CLI** — copy or symlink `GEMINI.md` into the project root or `~/.gemini/GEMINI.md`.
 - **Any other harness** — point the agent at `CORE.md` and say "write a handoff per this spec".
 
 ## What v2 adds over v1
@@ -40,15 +38,8 @@ current work after a context reset. v2 — multi-harness package, same pattern a
 ## Editing the brain
 
 `CORE.md` is the single source of truth. `AGENTS.md` inlines the contract so single-context-
-file harnesses get it without extra reads; `GEMINI.md` is generated from `AGENTS.md` with
-only the top 3 header lines differing. **If you edit CORE.md, re-sync the adapters:**
-
-```bash
-cd ~/.claude/skills/handoff
-# 1. Update AGENTS.md's inlined contract to match CORE.md
-# 2. Regenerate GEMINI.md:
-sed '1s/.*/# Handoff — Gemini CLI Rules/; 3s|.*|<!-- Adapter for Gemini CLI (reads GEMINI.md as standing context). -->|' AGENTS.md > GEMINI.md
-```
+file harnesses get it without extra reads. **If you edit CORE.md, re-sync `AGENTS.md`** — it is
+a hand-condensed subset, not a generated file.
 
 ## Design notes
 
