@@ -10,11 +10,14 @@ lose — not knowledge, discipline.
 
 | File | Role |
 |------|------|
-| `CORE.md` | **Canonical instructions.** Always-on rules, project orientation, execution loop, failure-mode catalog, deep-mode checklists, review mode. Harness-neutral. |
+| `CORE.md` | **The instructions.** The loop, the rules, debugging, tests, deep mode, review mode, quality, the report. Harness-neutral, and the only file with content. |
 | `SKILL.md` | Claude Code adapter (auto-discovered skill; defers to CORE.md) |
-| `AGENTS.md` | Codex CLI + OpenCode adapter (rules inlined + CORE.md pointer) |
-| `GEMINI.md` | Gemini CLI adapter (same rules, Gemini's context filename) |
-| `pi-prompt.md` | Pi adapter (same rules, for Pi's rules/system prompt) |
+| `AGENTS.md` | Symlink to `CORE.md` — the filename Codex CLI and OpenCode read |
+| `GEMINI.md` | Symlink to `CORE.md` — the filename Gemini CLI reads |
+| `pi-executor.md` | Pi only. Pi executes plans it is handed, so it gets executor rules, not the reasoning-agent set. The one file that deliberately differs. |
+
+The adapters used to be three hand-maintained copies of the same 162 lines. They are symlinks
+now: edit `CORE.md`, every harness gets it.
 
 ## Install per harness
 
@@ -26,10 +29,10 @@ lose — not knowledge, discipline.
 - **OpenCode** — same file, project root: OpenCode reads `AGENTS.md` as standing context.
 - **Gemini CLI** — copy or symlink `GEMINI.md` into the project root (or `~/.gemini/GEMINI.md`
   for global).
-- **Pi** — add `pi-prompt.md`'s contents to Pi's rules/extensions (or reference the file if
-  your Pi setup supports file includes).
-- **Any other harness / raw API** — prepend `CORE.md` Part 1 (Always-On Rules) to the system
-  prompt; provide full `CORE.md` as a readable file for deep mode.
+- **Pi** — `install.sh` links `pi-executor.md` to `~/.pi/agent/AGENTS.md`. Use `CORE.md`
+  instead if pi is ever driving itself rather than executing a plan.
+- **Any other harness / raw API** — prepend `CORE.md`'s "The Rules" to the system prompt;
+  provide the full file as readable for deep mode.
 
 ## Two-layer activation
 

@@ -15,9 +15,10 @@ link() { # link <target> <linkpath>
 # Claude Code — skill auto-discovered from ~/.claude/skills/
 link "$SKILL" "$HOME/.claude/skills/coding-excellence"
 
-# pi — always-on rules (global context file) + on-demand skill (deep mode)
-link "$SKILL/AGENTS.md" "$HOME/.pi/agent/AGENTS.md"
-link "$SKILL"           "$HOME/.agents/skills/coding-excellence"
+# pi — executor rules (pi runs plans it is given; the full reasoning-agent rules would be
+# ~2000 wasted tokens per request there) + on-demand skill (deep mode)
+link "$SKILL/pi-executor.md" "$HOME/.pi/agent/AGENTS.md"
+link "$SKILL"                "$HOME/.agents/skills/coding-excellence"
 
 # OpenCode — global rules
 link "$SKILL/AGENTS.md" "$HOME/.config/opencode/AGENTS.md"
